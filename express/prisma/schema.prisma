@@ -1,0 +1,158 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model books {
+  book_id        Int     @id @default(autoincrement())
+  title          String? @db.VarChar(100)
+  author_fname   String? @db.VarChar(100)
+  author_lname   String? @db.VarChar(100)
+  released_year  Int?
+  stock_quantity Int?
+  pages          Int?
+}
+
+model career_skills {
+  id        Int      @id @default(autoincrement())
+  career_id Int?
+  skill_id  Int?
+  careers   careers? @relation(fields: [career_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "career_skills_ibfk_1")
+  skills    skills?  @relation(fields: [skill_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "career_skills_ibfk_2")
+
+  @@index([career_id], map: "career_id")
+  @@index([skill_id], map: "skill_id")
+}
+
+model careers {
+  id                   Int             @id @default(autoincrement())
+  experience           String?         @db.VarChar(100)
+  job_title            String?         @db.VarChar(200)
+  job_description      String?         @db.Text
+  job_responsibilities String?         @db.Text
+  job_skills           String?         @db.Text
+  career_skills        career_skills[]
+}
+
+model cats {
+  id    Int     @id @default(autoincrement())
+  name  String? @db.VarChar(200)
+  color String? @db.VarChar(334)
+}
+
+model customers {
+  id         Int      @id @default(autoincrement())
+  first_name String?  @db.VarChar(50)
+  last_name  String?  @db.VarChar(50)
+  email      String?  @db.VarChar(50)
+  orders     orders[]
+}
+
+model huge_data {
+  id   Int     @id @default(autoincrement())
+  name String? @db.VarChar(200)
+  age  Int?
+}
+
+model jjj {
+  id   Int     @id @default(autoincrement())
+  name String? @db.VarChar(200)
+}
+
+model joy {
+  id    Int       @id @default(autoincrement())
+  timee DateTime? @default(now()) @db.DateTime(0)
+}
+
+model mock {
+  id         Int     @id @default(autoincrement())
+  first_name String? @db.VarChar(100)
+  last_name  String? @db.VarChar(100)
+  email      String? @db.VarChar(100)
+  gender     String? @db.VarChar(100)
+  ip_address String? @db.VarChar(200)
+}
+
+model orders {
+  id          Int        @id @default(autoincrement())
+  order_date  DateTime?  @db.Date
+  amount      Decimal?   @db.Decimal(8, 2)
+  customer_id Int?
+  customers   customers? @relation(fields: [customer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "orders_ibfk_1")
+
+  @@index([customer_id], map: "customer_id")
+}
+
+model reviewers {
+  id         Int       @id @default(autoincrement())
+  first_name String    @db.VarChar(50)
+  last_name  String    @db.VarChar(50)
+  reviews    reviews[]
+}
+
+model reviews {
+  id          Int        @id @default(autoincrement())
+  rating      Decimal?   @db.Decimal(2, 1)
+  series_id   Int?
+  reviewer_id Int?
+  series      series?    @relation(fields: [series_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reviews_ibfk_1")
+  reviewers   reviewers? @relation(fields: [reviewer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reviews_ibfk_2")
+
+  @@index([reviewer_id], map: "reviewer_id")
+  @@index([series_id], map: "series_id")
+}
+
+model series {
+  id            Int       @id @default(autoincrement())
+  title         String?   @db.VarChar(100)
+  released_year Int?      @db.Year
+  genre         String?   @db.VarChar(100)
+  reviews       reviews[]
+}
+
+model skills {
+  id            Int             @id @default(autoincrement())
+  skill_name    String?         @db.VarChar(200)
+  career_skills career_skills[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tab1 {
+  name String? @db.VarChar(100)
+  age  Int?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tab2 {
+  age   Int?
+  hobby String? @db.VarChar(100)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tab3 {
+  age   Int?
+  hobby String? @db.VarChar(100)
+
+  @@ignore
+}
+
+model test {
+  id    Int     @id @default(69)
+  name  String? @db.VarChar(200)
+  scare String  @db.VarChar(200)
+}
+
+model visitors {
+  id         Int      @id @default(autoincrement())
+  ip_address String?  @db.VarChar(45)
+  user_agent String?  @db.VarChar(255)
+  timestamp  DateTime @default(now()) @db.DateTime(0)
+}

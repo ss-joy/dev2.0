@@ -1,0 +1,19 @@
+{
+  "users": [
+    { "id": "11", "firstName": "Manuel Hawkins", "age": 43, "companyId": "1" },
+    { "id": "22", "firstName": "Fannie Wise", "age": 56, "companyId": "2" },
+    { "id": "33", "firstName": "Mayme Ryan", "age": 536, "companyId": "2" }
+  ],
+  "companies": [
+    {
+      "id": "1",
+      "name": "google",
+      "description": "some search"
+    },
+    {
+      "id": "2",
+      "name": "netflix",
+      "description": "some movies"
+    }
+  ]
+}
